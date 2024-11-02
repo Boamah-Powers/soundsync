@@ -1,117 +1,227 @@
-The content below is an example project proposal / requirements document. Replace the text below the lines marked "__TODO__" with details specific to your project. Remove the "TODO" lines.
-
-(__TODO__: your project name)
-
-# Shoppy Shoperson 
+# SoundSync
 
 ## Overview
 
-(__TODO__: a brief one or two paragraph, high-level description of your project)
+**SoundSync** is a web application designed to connect musicians and foster collaboration. It allows users to create profiles, upload short music snippets, and browse contributions from other artists. Each snippet is accompanied by genre tags and descriptions, making it easy for users to discover and connect with like-minded musicians. 
 
-Remembering what to buy at the grocery store is waaaaay too difficult. Also, shopping for groceries when you're hungry leads to regrettable purchases. Sooo... that's where Shoppy Shoperson comes in!
-
-Shoppy Shoperson is a web app that will allow users to keep track of multiple grocery lists. Users can register and login. Once they're logged in, they can create or view their grocery list. For every list that they have, they can add items to the list or cross off items.
+With features that enable users to leave feedback, initiate collaboration requests, and filter posts by genre or instrument type, SoundSync serves as a dynamic platform for both aspiring and experienced artists to showcase their work, receive constructive input, and explore creative partnerships within the music community.
 
 
 ## Data Model
 
-(__TODO__: a description of your application's data and their relationships to each other) 
+In **SoundSync**, the application's data consists of four primary entities: **Users**, **Snippets**, **Comments** and **Collaborations**. Each entity plays a crucial role in the platform's functionality and user interaction.
 
-The application will store Users, Lists and Items
 
-* users can have multiple lists (via references)
-* each list can have multiple items (by embedding)
+### Data Entities and Relationships
 
-(__TODO__: sample documents)
+1. **Users**: Represents the musicians using the platform. Each user has a unique profile containing personal information, instruments they play, and a collection of uploaded music snippets. Users can leave comments on snippets, initiate collaboration requests, and respond to requests from others.
 
-An Example User:
+2. **Snippets**: This entity contains the music snippets uploaded by users. Each snippet includes metadata such as the audio file URL, description, tags (for genre), and the user ID of the creator. Snippets serve as the primary content around which collaboration occurs.
 
-```javascript
+3. **Comments**: Comments are tied to specific snippets and allow users to provide feedback. Each comment references the user who made it and contains the text of the comment along with a timestamp.
+
+4. **Collaborations**: This entity tracks collaboration requests between users. Each collaboration request includes the requester and recipient user IDs, the snippet involved, an optional message explaining the collaboration idea, and the status of the request (e.g., pending, accepted, declined). 
+
+Example User Document
+```json
 {
-  username: "shannonshopper",
-  hash: // a password hash,
-  lists: // an array of references to List documents
-}
-```
-
-An Example List with Embedded Items:
-
-```javascript
-{
-  user: // a reference to a User object
-  name: "Breakfast foods",
-  items: [
-    { name: "pancakes", quantity: "9876", checked: false},
-    { name: "ramen", quantity: "2", checked: true},
+  "_id": "60d21b4667d0d8992e610c85",
+  "username": "musicmaestro",
+  "email": "musicmaestro@example.com",
+  "password": "$2b$10$yK0XchB3FQks7hG8xkm4Bu.b8ZQsqy1uFezM/4BSvqaEl3Um9i4ue", // a hashed password
+  "instruments": ["Guitar", "Piano"],
+  "genres": ["Rock", "Jazz"],
+  "profilePicture": "https://example.com/profile/musicmaestro.jpg",
+  "snippets": [
+    "60d21b4667d0d8992e610c86", // reference to a Snippet
+    "60d21b4667d0d8992e610c87"  // reference to another Snippet
   ],
-  createdAt: // timestamp
+  "createdAt": "2023-01-01T12:00:00Z",
+  "updatedAt": "2023-01-01T12:00:00Z"
 }
 ```
 
+Example Snippet Document
+```json
+{
+  "_id": "60d21b4667d0d8992e610c86",
+  "user": "60d21b4667d0d8992e610c85", // reference to User
+  "audioUrl": "https://example.com/audio/snippet1.mp3",
+  "description": "My first rock composition",
+  "tags": ["rock", "composition"],
+  "genre": "Rock",
+  "comments": [
+    "60d21b4667d0d8992e610c88" // reference to a Comment
+  ],
+  "createdAt": "2023-01-02T15:00:00Z",
+  "updatedAt": "2023-01-02T15:00:00Z"
+}
+```
 
-## [Link to Commented First Draft Schema](db.mjs) 
+Example Comment Document
+```json
+{
+  "_id": "60d21b4667d0d8992e610c88",
+  "user": "60d21b4667d0d8992e610c89", // reference to another User
+  "snippet": "60d21b4667d0d8992e610c86", // reference to Snippet
+  "text": "Love this composition! The guitar solo is fantastic!",
+  "createdAt": "2023-01-02T16:00:00Z",
+  "updatedAt": "2023-01-02T16:00:00Z"
+}
+```
 
-(__TODO__: create a first draft of your Schemas in db.mjs and link to it)
+Example Collaboration Document
+```json
+{
+  "_id": "60d21b4667d0d8992e610c8a",
+  "requester": "60d21b4667d0d8992e610c85", // reference to the requesting User
+  "recipient": "60d21b4667d0d8992e610c89", // reference to the recipient User
+  "snippet": "60d21b4667d0d8992e610c86", // reference to Snippet
+  "message": "I really love your style! Would you like to collaborate on this piece?",
+  "status": "pending",
+  "createdAt": "2023-01-02T17:00:00Z",
+  "updatedAt": "2023-01-02T17:00:00Z"
+}
+```
+
+### Relationships Overview
+
+- **Users** have many **Snippets** (one-to-many relationship), allowing them to showcase multiple music contributions. Each user can also have multiple collaboration requests associated with their profile.
+- **Snippets** can have multiple **Comments** (one-to-many relationship), enabling users to provide feedback on individual tracks.
+- Each **Comment** is associated with both a **User** and a **Snippet**, allowing for clear identification of who commented on which snippet.
+- **Collaborations** track requests between users, with each request containing references to the requester and recipient, as well as the associated snippet. This allows users to communicate and organize their collaboration efforts effectively.
+
+
+## [Link to Commented First Draft Schema](backend/models) 
+- **[User](backend/models/user.js)** 
+- **[Snippet](backend/models/snippet.js)** 
+- **[Comment](backend/models/comment.js)** 
+- **[Collaboration](backend/models/collaboration.js)** 
 
 ## Wireframes
 
-(__TODO__: wireframes for all of the pages on your site; they can be as simple as photos of drawings or you can use a tool like Balsamiq, Omnigraffle, etc.)
+- `/home` - Overview of SoundSync
 
-/list/create - page for creating a new shopping list
+![home](documentation/home.png)
 
-![list create](documentation/list-create.png)
+- `/signup` - Page for new users to register
 
-/list - page for showing all shopping lists
+![signup](documentation/signup.png)
 
-![list](documentation/list.png)
+- `/login` - Page for existing users to log in
 
-/list/slug - page for showing specific shopping list
+![login](documentation/login.png)
 
-![list](documentation/list-slug.png)
+- `/dashboard` - Main dashboard page showing user profile, uploaded snippets, and collaboration requests
+
+![dashboard](documentation/dashboard.png)
+
+- `/explore` - Page displaying all snippets with filtering options
+
+![explore](documentation/explore.png)
+
 
 ## Site map
 
-(__TODO__: draw out a site map that shows how pages are related to each other)
+```
+                    +-----------------+
+                    |      /home      |
+                    |   Overview of   |
+                    |    SoundSync    |
+                    +-----------------+
+                            |
+               +------------+------------+------------+------------+
+               |                         |                         |
+      +--------+--------+         +------v------+        +---------v--------+
+      |     /signup     |         |    /login   |        |     /explore     |
+      |   Register new  |         |   User log  |        |   Discover and   |
+      |      users      |         |     in      |        |  filter snippets |
+      +-----------------+         +-------------+        +------------------+
+               |
+               |
+     +---------v--------+
+     |   /dashboard     |
+     |  User profile,   |
+     |  snippets, and   |
+     | collaboration    |
+     |    requests      |
+     +---------+--------+
+```
 
-Here's a [complex example from wikipedia](https://upload.wikimedia.org/wikipedia/commons/2/20/Sitemap_google.jpg), but you can create one without the screenshots, drop shadows, etc. ... just names of pages and where they flow to.
 
 ## User Stories or Use Cases
 
-(__TODO__: write out how your application will be used through [user stories](http://en.wikipedia.org/wiki/User_story#Format) and / or [use cases](https://en.wikipedia.org/wiki/Use_case))
+### **User Authentication**
 
-1. as non-registered user, I can register a new account with the site
-2. as a user, I can log in to the site
-3. as a user, I can create a new grocery list
-4. as a user, I can view all of the grocery lists I've created in a single list
-5. as a user, I can add items to an existing grocery list
-6. as a user, I can cross off items in an existing grocery list
+1. **As a new user**, I want to sign up with my email and a password so that I can create an account and start using the platform.
+2. **As a returning user**, I want to log in with my credentials so that I can access my personal dashboard and snippets.
+3. **As a user**, I want to reset my password if I forget it so that I can regain access to my account.
+
+
+### **Profile Management**
+
+4. **As a logged-in user**, I want to view and edit my profile information, including instruments I play and genres I prefer so that my profile reflects my musical interests.
+5. **As a user**, I want to upload a profile picture so that my profile feels more personal.
+
+
+### **Snippets Management**
+
+6. **As a user**, I want to upload audio snippets with descriptions and tags so that I can share my music with others on the platform.
+7. **As a user**, I want to browse my uploaded snippets on my dashboard so that I can manage my music collection.
+8. **As a user**, I want to edit or delete snippets I have uploaded so that I can keep my portfolio up-to-date.
+9. **As a user**, I want to categorize my snippets by genre or tags so that others can easily find music based on specific styles.
+
+### **Explore Snippets**
+
+10. **As a user**, I want to browse all available snippets uploaded by others so that I can discover new music on the platform.
+11. **As a user**, I want to filter snippets by genre, instruments, or tags so that I can find music that matches my interests.
+12. **As a user**, I want to listen to snippets through an audio player on the snippet page so that I can experience each piece before deciding to interact.
+
+
+### **Comments**
+
+13. **As a user**, I want to leave comments on snippets I enjoy so that I can engage with other musicians and provide feedback.
+14. **As a user**, I want to view comments on my snippets so that I can receive feedback from the community.
+15. **As a user**, I want to delete comments that I’ve posted if I change my mind, so that I can manage my contributions to discussions.
+
+### **Collaborations**
+
+16. **As a user**, I want to send collaboration requests to other users on their snippets so that I can connect and create music together.
+17. **As a user**, I want to receive and view collaboration requests on my snippets so that I can decide if I want to work with others.
+18. **As a user**, I want to accept or decline collaboration requests so that I have control over my partnerships.
+19. **As a user**, I want to send a personalized message along with a collaboration request so that I can explain why I’m interested in collaborating.
+
 
 ## Research Topics
 
-(__TODO__: the research topics that you're planning on working on along with their point values... and the total points of research topics listed)
+* **(5 points) User Authentication and Authorization**
+  * Implementing **Passport.js** to manage user login and registration securely, with hashed passwords and sessions.
+  * Setting up authorization for user-only routes, such as the dashboard and snippet management.
 
-* (5 points) Integrate user authentication
-    * I'm going to be using passport for user authentication
-    * And account has been made for testing; I'll email you the password
-    * see <code>cs.nyu.edu/~jversoza/ait-final/register</code> for register page
-    * see <code>cs.nyu.edu/~jversoza/ait-final/login</code> for login page
-* (4 points) Perform client side form validation using a JavaScript library
-    * see <code>cs.nyu.edu/~jversoza/ait-final/my-form</code>
-    * if you put in a number that's greater than 5, an error message will appear in the dom
-* (5 points) vue.js
-    * used vue.js as the frontend framework; it's a challenging library to learn, so I've assigned it 5 points
+* **(3 points) Unit Testing with JavaScript (Jest)**
+  * Writing unit tests for key features, such as user authentication, snippet uploads, and collaboration requests.
+  * Using **Jest** to write and run at least 4 tests, with screenshots to show test results and coverage.
+  * Linking to the test code in the repository for easy reference.
 
-10 points total out of 8 required points (___TODO__: addtional points will __not__ count for extra credit)
+* **(6 points) React Frontend Framework**
+  * Building the frontend using **React** to create dynamic and responsive user interfaces.
+  * React will be used to handle all client-side functionality, including rendering user snippets, handling form submissions, and displaying collaboration requests.
+  * Managing state with React to improve component organization and user interaction flow.
 
+* **(2 points) Use a CSS Framework (Tailwind CSS)**
+  * Implementing **Tailwind CSS** for rapid and consistent styling across the app.
+  * Customizing the Tailwind theme to align with SoundSync’s aesthetic, beyond the default styles.
+
+* **(3 points) Firebase Storage for Audio Snippets**
+  * Using **Firebase Storage** to upload, store, and retrieve audio snippets.
+  * Firebase integration will allow users to securely store and access audio snippets, with options for download and playback.
+  * Researching secure access and efficient handling of audio data in Firebase.
+
+
+**Total Points: 19 out of 10 required points**
 
 ## [Link to Initial Main Project File](app.mjs) 
 
-(__TODO__: create a skeleton Express application with a package.json, app.mjs, views folder, etc. ... and link to your initial app.mjs)
 
 ## Annotations / References Used
-
-(__TODO__: list any tutorials/references/etc. that you've based your code off of)
-
-1. [passport.js authentication docs](http://passportjs.org/docs) - (add link to source code that was based on this)
-2. [tutorial on vue.js](https://vuejs.org/v2/guide/) - (add link to source code that was based on this)
 
