@@ -6,8 +6,10 @@ import passport from "passport";
 import cookieParser from 'cookie-parser';
 import authRoute from './routes/auth.route.js';
 import { User } from "./models/user.js";
+import cors from "cors";
 
 const app = express();
+app.use(cors({origin: process.env.CLIENT_URL, credentials: true}));
 app.use(express.json());
 app.use(cookieParser());
 

@@ -6,7 +6,7 @@ export const register = async (req, res) => {
 	const { username, email, password, instruments, genres, profilePicture } =
 		req.body;
 
-	if (!username || !email || !password || !instruments || !genres) {
+	if (!username || !email || !password) {
 		return res
 			.status(400)
 			.json({ message: "Please fill in all required fields" });
@@ -16,9 +16,9 @@ export const register = async (req, res) => {
 		const newUser = new User({
 			username,
 			email,
-			instruments,
-			genres,
-			profilePicture,
+			instruments: instruments || [],
+			genres: genres || [],
+			profilePicture: profilePicture || "",
 		});
 
 		User.register(newUser, password, (err, user) => {
