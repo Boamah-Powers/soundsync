@@ -1,5 +1,5 @@
 import apiRequest from "../lib/apiRequest";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 function Register() {
@@ -27,7 +27,7 @@ function Register() {
                 navigate('/login');
                 setIsLoading(false);
             })
-            .catch((error) => {
+            .catch(() => {
                 setIsLoading(false);
             });
     };

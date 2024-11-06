@@ -20,7 +20,7 @@ function Login() {
     };
     apiRequest
       .post("/auth/login", data)
-      .then((res) => {
+      .then(() => {
         navigate("/");
         setIsLoading(false);
       })
