@@ -41,9 +41,9 @@ export const register = async (req, res) => {
 export const login = async (req, res) => {
 	passport.authenticate("local", (err, user, info) => {
 		if (err)
-			return res.status(500).json({ message: "Authentication error", error: err.message });
+			{return res.status(500).json({ message: "Authentication error", error: err.message });}
 		if (!user)
-			return res.status(401).json({ message: "Invalid credentials" });
+			{return res.status(401).json({ message: "Invalid credentials" });}
 
 		// Create and send a JWT
 		const age = "7d";
@@ -68,4 +68,4 @@ export const logout = (_, res) => {
         .clearCookie("token")
         .status(200)
         .json({message: "Logout successful"});
-}
+};
