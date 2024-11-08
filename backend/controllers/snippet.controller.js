@@ -30,9 +30,9 @@ export const getSnippets = async (req, res) => {
 };
 
 
-export const getSnippet = async (req, res) => {
+export const getSnippet = async () => {
 
-}
+};
 
 export const createSnippet = async (req, res) => {
   try {
@@ -43,7 +43,7 @@ export const createSnippet = async (req, res) => {
     // Destructure snippet details from the request body
     const { audioUrl, description, tags, genre } = req.body;
     const userId = req.user;
-    console.log(userId)
+    console.log(userId);
 
     // Validate input
     if (!audioUrl || !description || !tags || !genre) {
@@ -80,10 +80,10 @@ export const createSnippet = async (req, res) => {
   }
 };
 
-export const updateSnippet = async (req, res) => {
+export const updateSnippet = async () => {
 
-}
+};
 
-export const deleteSnippet = async (req, res) => {
+export const deleteSnippet = async () => {
 
-}
+};

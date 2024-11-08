@@ -21,7 +21,7 @@ export const register = async (req, res) => {
 			profilePicture: profilePicture || "",
 		});
 
-		User.register(newUser, password, (err, user) => {
+		User.register(newUser, password, (err) => {
 			if (err) {
 				return res.status(400).json({
 					message: "Registration failed",
@@ -38,7 +38,7 @@ export const register = async (req, res) => {
 };
 
 export const login = async (req, res) => {
-	passport.authenticate("local", (err, user, info) => {
+	passport.authenticate("local", (err, user) => {
 		if (err)
 			{return res.status(500).json({ message: "Authentication error", error: err.message });}
 		if (!user)
@@ -50,7 +50,9 @@ export const login = async (req, res) => {
 			expiresIn: age,
 		});
 
-		const {salt, hash, ...userInfo} = user.toObject();
+		const userInfo = user.toObject();
+    delete userInfo.salt;  
+    delete userInfo.hash; 
 
 		res
             .cookie("token", token, {
