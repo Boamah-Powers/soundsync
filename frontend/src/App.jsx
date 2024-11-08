@@ -3,6 +3,7 @@ import { Layout } from "./routes/layout";
 import HomePage from "./routes/homePage";
 import Register from "./routes/register";
 import Login from "./routes/login";
+import { snippetsLoader } from "./lib/loaders";
 
 const App = () => {
   const router = createBrowserRouter([
@@ -12,7 +13,8 @@ const App = () => {
       children: [
         {
           path: "/",
-          element: <HomePage/>
+          element: <HomePage/>,
+          loader: snippetsLoader,
         },
         {
           path: "/register",
