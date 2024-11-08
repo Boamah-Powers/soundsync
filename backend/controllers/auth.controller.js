@@ -30,7 +30,6 @@ export const register = async (req, res) => {
 			}
 			res.status(201).json({
 				message: "User registered successfully",
-				user,
 			});
 		});
 	} catch (error) {
@@ -51,14 +50,15 @@ export const login = async (req, res) => {
 			expiresIn: age,
 		});
 
+		const {salt, hash, ...userInfo} = user.toObject();
+
 		res
             .cookie("token", token, {
                 httpOnly: true,
             })
 			.status(200)
 			.json({
-				message: "Login successful",
-				info,
+				userInfo
 			});
 	})(req, res);
 };

@@ -1,10 +1,14 @@
 import apiRequest from "../lib/apiRequest";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useSnackbar } from 'notistack';
+import { useContext, useState } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
+  const { updateUser } = useContext(AuthContext);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -20,13 +24,16 @@ function Login() {
     };
     apiRequest
       .post("/auth/login", data)
-      .then(() => {
+      .then((res) => {
+        updateUser(res.data.userInfo);
         navigate("/");
         setIsLoading(false);
+        enqueueSnackbar("User logged in successfully!", { variant: "success" });
       })
       .catch((error) => {
         console.log(error);
         setIsLoading(false);
+        enqueueSnackbar(error.response.data.message, { variant: "error" });
       });
   };
 

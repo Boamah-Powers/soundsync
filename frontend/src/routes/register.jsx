@@ -1,36 +1,40 @@
 import apiRequest from "../lib/apiRequest";
+import { useSnackbar } from "notistack";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 function Register() {
-  const [isLoading, setIsLoading] = useState(false);
-    const navigate = useNavigate();
+	const [isLoading, setIsLoading] = useState(false);
+	const navigate = useNavigate();
+	const { enqueueSnackbar } = useSnackbar();
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        setIsLoading(true);
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		setIsLoading(true);
 
-        const formData = new FormData(e.target);
-        const username = formData.get("username");
-        const email = formData.get("email");
-        const password = formData.get("password");
+		const formData = new FormData(e.target);
+		const username = formData.get("username");
+		const email = formData.get("email");
+		const password = formData.get("password");
 
-        const data = {
-            username,
-            email,
-            password,
-          };
-          console.log(data);
-        apiRequest
-            .post("/auth/register", data)
-            .then(() => {
-                navigate('/login');
-                setIsLoading(false);
-            })
-            .catch(() => {
-                setIsLoading(false);
-            });
-    };
+		const data = {
+			username,
+			email,
+			password,
+		};
+		console.log(data);
+		apiRequest
+			.post("/auth/register", data)
+			.then(() => {
+				navigate("/login");
+				setIsLoading(false);
+				enqueueSnackbar("User created successfully!", {variant: "success"});
+			})
+			.catch((err) => {
+				setIsLoading(false);
+				enqueueSnackbar(err.response.data.message, {variant: "error"});
+			});
+	};
 
 	return (
 		<>
@@ -102,7 +106,7 @@ function Register() {
 						<div>
 							<button
 								type="submit"
-                disabled={isLoading}
+								disabled={isLoading}
 								className="flex w-full justify-center rounded-md bg-blue-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
 							>
 								Register
