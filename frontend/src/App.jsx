@@ -1,9 +1,10 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { Layout } from "./routes/layout";
+import { Layout, RequireAuth } from "./routes/layout";
 import HomePage from "./routes/homePage";
 import Register from "./routes/register";
 import Login from "./routes/login";
 import { snippetsLoader } from "./lib/loaders";
+import ProfilePage from "./routes/profilePage";
 
 const App = () => {
   const router = createBrowserRouter([
@@ -23,6 +24,16 @@ const App = () => {
         {
           path: "/login",
           element: <Login/>
+        }
+      ]
+    },
+    {
+      path: "/",
+      element: <RequireAuth/>,
+      children: [
+        {
+          path: "/profile",
+          element: <ProfilePage/>
         }
       ]
     }
