@@ -2,6 +2,7 @@ import SearchBar from "../components/SearchBar";
 import MusicCard from "../components/MusicCard";
 import { Await, useLoaderData } from "react-router-dom";
 import { Suspense } from "react";
+import Spinner from "../components/Spinner";
 
 function HomePage() {
 	const data = useLoaderData();
@@ -10,16 +11,17 @@ function HomePage() {
 		<div className="p-4 h-full">
 			<SearchBar />
 			<div className="p-10 flex flex-col items-center space-y-4 overflow-y-auto max-h-[calc(100vh-13rem)]">
-				<Suspense fallback={<p>Loading...</p>}>
+				<Suspense fallback={<Spinner/>}>
 					<Await
 						resolve={data.snippetResponse}
 						errorElement={<p>Error loading snippets!</p>}
 					>
 						{(snippetResponse) => {
-							// Extract desired properties from each snippet
+							// Extract desired properties, including _id
 							const transformedResponse = snippetResponse.map(
 								(m) => {
 									const {
+										_id,
 										user: { username },
 										tags,
 										description,
@@ -27,6 +29,7 @@ function HomePage() {
 										createdAt,
 									} = m;
 									return {
+										id: _id,
 										name: username,
 										tags,
 										description,
@@ -37,7 +40,7 @@ function HomePage() {
 							);
 
 							return transformedResponse.map((m, index) => (
-								<MusicCard musicList={m} key={index} />
+								<MusicCard musicList={m} index={m.id}key={index} /> // Use m.id as the key
 							));
 						}}
 					</Await>

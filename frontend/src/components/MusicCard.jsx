@@ -1,8 +1,16 @@
 import ReactAudioPlayer from "react-audio-player";
 import { MdOutlineMessage } from "react-icons/md";
 import moment from "moment";
+import { useNavigate } from "react-router-dom";
 
 function MusicCard({ musicList, index }) {
+	const navigate = useNavigate();
+
+	// Handler to navigate to the snippet page
+	const handleNavigateToComments = () => {
+		navigate(`/snippet/${index}`);
+	};
+
 	return (
 		<div className="flex flex-col max-w-[600px] rounded-lg shadow-lg bg-white">
 			<div className="px-5 py-6">
@@ -46,7 +54,10 @@ function MusicCard({ musicList, index }) {
 					</div>
 
 					{/* Comments Button */}
-					<button className="flex items-center space-x-1 px-3 py-2 rounded-md bg-blue-500 hover:bg-blue-600 text-white cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-400">
+					<button
+						onClick={handleNavigateToComments}
+						className="flex items-center space-x-1 px-3 py-2 rounded-md bg-blue-500 hover:bg-blue-600 text-white cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-400"
+					>
 						<MdOutlineMessage className="h-5 w-5" />
 						<span>Comments</span>
 					</button>

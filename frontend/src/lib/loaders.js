@@ -16,3 +16,21 @@ export const snippetsLoader = ({request }) => {
     snippetResponse: snippetPromise,
   });
 }
+
+export const snippetLoader = ({ params }) => {
+  const { id } = params; // Extract 'id' parameter from the URL
+  if (!id) {
+    throw new Error("Snippet ID is required.");
+  }
+
+  const snippetPromise = apiRequest
+    .get(`/snippets/${id}`)
+    .then((res) => res.data)
+    .catch((err) => {
+      console.error("Error fetching snippet:", err);
+    });
+
+  return defer({
+    snippetResponse: snippetPromise,
+  });
+};

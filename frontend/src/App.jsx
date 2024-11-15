@@ -3,8 +3,9 @@ import { Layout, RequireAuth } from "./routes/layout";
 import HomePage from "./routes/homePage";
 import Register from "./routes/register";
 import Login from "./routes/login";
-import { snippetsLoader } from "./lib/loaders";
+import { snippetsLoader, snippetLoader } from "./lib/loaders";
 import ProfilePage from "./routes/profilePage";
+import SingleSnippetPage from "./routes/singleSnippetPage";
 
 const App = () => {
   const router = createBrowserRouter([
@@ -24,6 +25,11 @@ const App = () => {
         {
           path: "/login",
           element: <Login/>
+        },
+        {
+          path: "/snippet/:id",
+          element: <SingleSnippetPage/>,
+          loader: snippetLoader,
         }
       ]
     },

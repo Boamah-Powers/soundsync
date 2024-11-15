@@ -6,6 +6,7 @@ import passport from "passport";
 import cookieParser from 'cookie-parser';
 import authRoute from './routes/auth.route.js';
 import snippetRoute from "./routes/snippet.route.js";
+import commentRoute from "./routes/comment.route.js";
 import { User } from "./models/user.js";
 import cors from "cors";
 
@@ -37,6 +38,7 @@ app.use((req, _, next) => {
 
 app.use("/api/auth", authRoute);
 app.use("/api/snippets", snippetRoute);
+app.use("/api/comments", commentRoute);
 
 const PORT = process.env.PORT || 3000; 
 app.listen(PORT, () => {
