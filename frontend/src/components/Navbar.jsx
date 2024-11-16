@@ -18,20 +18,18 @@ const Navbar = () => {
 	return (
 		<nav className="bg-white flex justify-between items-center p-4 h-24 mx-auto text-white">
 			{/* Logo */}
-			<a href="/" className="w-full">
-				<h1 className="text-3xl font-bold text-blue-600 cursor-pointer">
-					SoundSync
-				</h1>
+			<a href="/" className="text-3xl font-bold text-blue-600 cursor-pointer">
+				SoundSync
 			</a>
 
 			{/* Desktop Navigation */}
-			<ul className="w-1/6 hidden md:flex items-center">
+			<ul className="hidden md:flex items-center space-x-4">
 				{!currentUser ? (
 					navItems.map((item) => (
 						<a
 							key={item.id}
 							href={item.href}
-							className="p-4 w-24 hover:bg-blue-600 rounded-xl m-2 cursor-pointer duration-300 text-center text-black hover:text-white"
+							className="px-4 py-2 hover:bg-blue-600 rounded-xl cursor-pointer duration-300 text-center text-black hover:text-white"
 						>
 							<li>{item.text}</li>
 						</a>
@@ -39,14 +37,14 @@ const Navbar = () => {
 				) : (
 					<a
 						href="/profile"
-						className="flex items-center space-x-2 text-blue-600 hover:text-blue-800 w-full max-w-[200px] overflow-hidden"
+						className="flex items-center space-x-2 text-blue-600 hover:text-blue-800"
 					>
 						<img
 							src={currentUser.profilePicture || "/noavatar.png"}
 							alt="User Avatar"
 							className="h-8 w-8 rounded-full"
 						/>
-						<span className="text-lg font-medium truncate overflow-hidden text-ellipsis pr-2">
+						<span className="text-lg font-medium truncate overflow-hidden text-ellipsis">
 							{currentUser.username}
 						</span>
 					</a>
@@ -64,14 +62,14 @@ const Navbar = () => {
 
 			{/* Mobile Navigation Menu */}
 			<ul
-				className={
-					nav
-						? "fixed z-40 md:hidden left-0 top-0 w-[60%] h-full border-r border-r-gray-900 bg-[#000300] ease-in-out duration-500"
-						: "ease-in-out z-40 w-[60%] duration-500 fixed top-0 bottom-0 left-[-100%]"
-				}
+				className={`fixed top-0 left-0 w-[60%] h-full bg-[#000300] z-40 border-r border-gray-900 transform ${
+					nav ? "translate-x-0" : "-translate-x-full"
+				} transition-transform duration-300 ease-in-out md:hidden`}
 			>
 				{/* Mobile Logo */}
-				<h1 className="w-full text-3xl font-bold text-blue-600 m-4">SoundSync</h1>
+				<a href="/" className="block text-3xl font-bold text-blue-600 m-4">
+					SoundSync
+				</a>
 
 				{/* Mobile Navigation Items */}
 				{!currentUser ? (
@@ -83,7 +81,7 @@ const Navbar = () => {
 						</a>
 					))
 				) : (
-					<div className="flex items-center space-x-3 p-4">
+					<a href="/profile" className="flex items-center space-x-3 p-4">
 						<img
 							src={currentUser.profilePicture || "/noavatar.png"}
 							alt="User Avatar"
@@ -92,7 +90,7 @@ const Navbar = () => {
 						<span className="text-gray-700 font-semibold truncate overflow-hidden text-ellipsis max-w-[180px]">
 							{currentUser.username}
 						</span>
-					</div>
+					</a>
 				)}
 			</ul>
 		</nav>

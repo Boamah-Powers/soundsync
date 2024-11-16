@@ -40,7 +40,7 @@ function SingleSnippetPage() {
       .catch((error) => {
         setNewComment(""); // Clear the textarea in case of error
         console.error("Error adding comment:", error);
-        enqueueSnackbar("An error occurred while adding the comment.", { variant: "error" });
+        enqueueSnackbar(error.response.data.message, { variant: "error" });
       });
   };
 
