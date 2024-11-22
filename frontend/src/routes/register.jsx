@@ -32,7 +32,8 @@ function Register() {
 			})
 			.catch((err) => {
 				setIsLoading(false);
-				enqueueSnackbar(err.response.data.message, {variant: "error"});
+				console.log(err.response.data.error);
+				enqueueSnackbar(err.response.data.error, {variant: "error"});
 			});
 	};
 

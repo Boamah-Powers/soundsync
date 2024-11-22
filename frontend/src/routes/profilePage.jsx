@@ -128,6 +128,9 @@ function ProfilePage() {
                   url: snippet.audioUrl,
                   created_at: snippet.createdAt,
                 }}
+                username={
+                  currentUser ? currentUser.username : ""
+                }
               />
             ))}
           </div>

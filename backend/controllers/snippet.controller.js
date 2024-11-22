@@ -122,4 +122,30 @@ export const createSnippet = async (req, res) => {
 
 export const updateSnippet = async () => {};
 
-export const deleteSnippet = async () => {};
+export const deleteSnippet = async (req, res) => {
+  try {
+    const id = req.params.id;
+
+    if (!id) {
+      return res.status(400).json({ message: "Snippet ID is required" });
+    }
+
+    // Find the snippet by ID
+    const snippet = await Snippet.findById(id);
+
+    if (!snippet) {
+      return res.status(404).json({ message: "Snippet not found" });
+    }
+
+    // Delete all comments associated with the snippet
+    await Comment.deleteMany({ snippet: id });
+
+    // Delete the snippet
+    await Snippet.findByIdAndDelete(id);
+
+    res.status(200).json({ message: "Snippet and associated comments deleted successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Internal server error", error: err.message });
+  }
+};

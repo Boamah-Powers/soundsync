@@ -2,13 +2,35 @@ import ReactAudioPlayer from "react-audio-player";
 import { MdOutlineMessage } from "react-icons/md";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
+import { useDeleteSnippet } from "../utils/deleteSnippet";
+import apiRequest from "../lib/apiRequest";
 
-function MusicCard({ musicList, index }) {
+function MusicCard({ musicList, index, username}) {
 	const navigate = useNavigate();
+	const deleteSnippet = useDeleteSnippet();
 
 	// Handler to navigate to the snippet page
 	const handleNavigateToComments = () => {
 		navigate(`/snippet/${index}`);
+	};
+
+	// Handler for delete operation
+	const handleDelete = () => {
+		if (window.confirm("Are you sure you want to delete this snippet?")) {
+
+			apiRequest
+			.delete(`/snippets/${index}`)
+      .then(() => {
+				deleteSnippet(index);
+        enqueueSnackbar("Snippet deleted successfully!", {
+          variant: "success",
+        });
+      })
+      .catch((err) => {
+        console.log(err.response.data.error);
+				enqueueSnackbar("Failed to delete snippet: ", err.response.data.error, {variant: "error"});
+      });
+		}
 	};
 
 	return (
@@ -46,21 +68,34 @@ function MusicCard({ musicList, index }) {
 					</div>
 				</div>
 
-				{/* Audio Player and Comments Row */}
+				{/* Audio Player and Buttons Row */}
 				<div className="flex items-center justify-between w-full px-5 py-3">
 					{/* Audio Player */}
 					<div className="m-2">
 						<ReactAudioPlayer src={`${musicList.url}`} controls />
 					</div>
 
-					{/* Comments Button */}
-					<button
-						onClick={handleNavigateToComments}
-						className="flex items-center space-x-1 px-3 py-2 rounded-md bg-blue-500 hover:bg-blue-600 text-white cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-400"
-					>
-						<MdOutlineMessage className="h-5 w-5" />
-						<span>Comments</span>
-					</button>
+					{/* Buttons */}
+					<div className="flex space-x-2">
+						{/* Comments Button */}
+						<button
+							onClick={handleNavigateToComments}
+							className="flex items-center space-x-1 px-3 py-2 rounded-md bg-blue-500 hover:bg-blue-600 text-white cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-400"
+						>
+							<MdOutlineMessage className="h-5 w-5" />
+							<span>Comments</span>
+						</button>
+
+						{/* Delete Button (conditionally rendered) */}
+						{username === musicList.name && (
+							<button
+								onClick={handleDelete}
+								className="flex items-center space-x-1 px-3 py-2 rounded-md bg-red-500 hover:bg-red-600 text-white cursor-pointer focus:outline-none focus:ring-2 focus:ring-red-400"
+							>
+								<span>Delete</span>
+							</button>
+						)}
+					</div>
 				</div>
 			</div>
 		</div>

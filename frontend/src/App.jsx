@@ -6,6 +6,7 @@ import Login from "./routes/login";
 import { snippetsLoader, snippetLoader } from "./lib/loaders";
 import ProfilePage from "./routes/profilePage";
 import SingleSnippetPage from "./routes/singleSnippetPage";
+import AddSnippetPage from "./routes/addSnippetPage";
 
 const App = () => {
   const router = createBrowserRouter([
@@ -40,7 +41,11 @@ const App = () => {
         {
           path: "/profile",
           element: <ProfilePage/>
-        }
+        },
+        {
+          path: "/add-snippet",
+          element: <AddSnippetPage/>
+        },
       ]
     }
   ])
