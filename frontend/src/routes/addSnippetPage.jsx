@@ -12,7 +12,7 @@ function AddSnippetPage() {
   const [description, setDescription] = useState("");
   const [tags, setTags] = useState("");
   const [genre, setGenre] = useState("");
-  const [audioUrl, setAudioUrl] = useState("");
+  const [audioUrl, setAudioUrl] = useState([""]);
   const { currentUser, updateUser } = useContext(AuthContext);
 
   const handleSubmit = (e) => {
@@ -30,7 +30,8 @@ function AddSnippetPage() {
       description,
       tags: formattedTags,
       genre,
-      audioUrl,
+      audioUrl: audioUrl[0],
+      public_id: audioUrl[1]
     };
 
     apiRequest
@@ -70,9 +71,9 @@ function AddSnippetPage() {
             </label>
             <div className="space-y-4">
               {/* Audio Preview */}
-              {audioUrl ? (
+              {audioUrl[0] ? (
                 <ReactAudioPlayer
-                  src={audioUrl}
+                  src={audioUrl[0]}
                   controls
                   className="w-full border rounded"
                 />

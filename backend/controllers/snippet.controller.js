@@ -1,6 +1,14 @@
 import { User } from "../models/user.js";
 import { Snippet } from "../models/snippet.js";
 import { Comment } from "../models/comment.js";
+import { v2 as cloudinary } from 'cloudinary';
+
+// cloudinary
+cloudinary.config({ 
+  cloud_name: process.env.CLOUDINARY_CLOUDNAME,
+	api_key: process.env.CLOUDINARY_API_KEY,
+	api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 export const getSnippets = async (req, res) => {
 	try {
@@ -77,11 +85,11 @@ export const createSnippet = async (req, res) => {
 		}
 
 		// Destructure snippet details from the request body
-		const { audioUrl, description, tags, genre } = req.body;
+		const { audioUrl, description, tags, genre, public_id } = req.body;
 		const userId = req.user;
 
 		// Validate input
-		if (!audioUrl || !description || !tags || !genre) {
+		if (!audioUrl || !description || !tags || !genre | !public_id) {
 			return res
 				.status(400)
 				.json({ message: "All fields are required." });
@@ -100,6 +108,7 @@ export const createSnippet = async (req, res) => {
 			description,
 			tags, // Assuming tags is an array of strings
 			genre,
+			public_id
 		});
 
 		// Save the snippet
@@ -136,6 +145,10 @@ export const deleteSnippet = async (req, res) => {
     if (!snippet) {
       return res.status(404).json({ message: "Snippet not found" });
     }
+
+		await cloudinary.uploader.destroy(snippet.public_id, {
+			resource_type: "video",
+		});
 
     // Delete all comments associated with the snippet
     await Comment.deleteMany({ snippet: id });

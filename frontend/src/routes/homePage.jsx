@@ -28,6 +28,7 @@ function HomePage() {
                   description,
                   audioUrl,
                   createdAt,
+									public_id,
                 } = m;
                 return {
                   id: _id,
@@ -36,6 +37,7 @@ function HomePage() {
                   description,
                   url: audioUrl,
                   created_at: createdAt,
+									public_id
                 };
               });
 

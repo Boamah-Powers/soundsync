@@ -35,9 +35,8 @@ function UploadWidget({ uwConfig, setState }) {
         uwConfig,
         (error, result) => {
           if (!error && result.event === "success") {
-            console.log("Upload successful:", result.info);
             if (setState) {
-              setState(result.info.secure_url);
+              setState([result.info.secure_url, result.info.public_id]);
             }
           } else if (error) {
             console.error("Upload failed:", error);

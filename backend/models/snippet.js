@@ -10,6 +10,10 @@ const snippetSchema = new mongoose.Schema({
         type: String,
         required: true, // URL to the audio file
     },
+    public_id: {
+        type: String,
+        required: true,
+    },
     description: {
         type: String,
         required: true,

@@ -2,12 +2,14 @@ import ReactAudioPlayer from "react-audio-player";
 import { MdOutlineMessage } from "react-icons/md";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
+import { useSnackbar } from "notistack";
 import { useDeleteSnippet } from "../utils/deleteSnippet";
 import apiRequest from "../lib/apiRequest";
 
 function MusicCard({ musicList, index, username}) {
 	const navigate = useNavigate();
 	const deleteSnippet = useDeleteSnippet();
+	const { enqueueSnackbar } = useSnackbar();
 
 	// Handler to navigate to the snippet page
 	const handleNavigateToComments = () => {
@@ -19,7 +21,7 @@ function MusicCard({ musicList, index, username}) {
 		if (window.confirm("Are you sure you want to delete this snippet?")) {
 
 			apiRequest
-			.delete(`/snippets/${index}`)
+			.delete(`/snippets/${index}`, {public_id: musicList.public_id})
       .then(() => {
 				deleteSnippet(index);
         enqueueSnackbar("Snippet deleted successfully!", {
