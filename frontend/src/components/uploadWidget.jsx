@@ -25,7 +25,7 @@ function useCloudinaryScript(scriptUrl) {
   return loaded;
 }
 
-function UploadWidget({ uwConfig, setState }) {
+function UploadWidget({ uwConfig, setState, flag=true }) {
   const scriptUrl = import.meta.env.VITE_CLOUDINARY_URL;
   const loaded = useCloudinaryScript(scriptUrl);
 
@@ -35,8 +35,11 @@ function UploadWidget({ uwConfig, setState }) {
         uwConfig,
         (error, result) => {
           if (!error && result.event === "success") {
-            if (setState) {
+            if (setState && flag) {
               setState([result.info.secure_url, result.info.public_id]);
+            }
+            else if (setState) {
+              setState(result.info.secure_url);
             }
           } else if (error) {
             console.error("Upload failed:", error);
