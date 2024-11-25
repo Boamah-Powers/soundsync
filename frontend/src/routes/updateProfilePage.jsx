@@ -2,7 +2,7 @@ import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSnackbar } from "notistack";
 import { AuthContext } from "../context/AuthContext";
-import UploadWidget from "../components/UploadWidget";
+import UploadWidget from "../components/uploadWidget";
 import apiRequest from "../lib/apiRequest";
 
 function UpdateProfilePage() {
