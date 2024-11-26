@@ -146,9 +146,15 @@ export const deleteSnippet = async (req, res) => {
       return res.status(404).json({ message: "Snippet not found" });
     }
 
-		await cloudinary.uploader.destroy(snippet.public_id, {
-			resource_type: "video",
-		});
+    // Remove the snippet ID from the user's snippets field
+    await User.findByIdAndUpdate(snippet.user, {
+      $pull: { snippets: id },
+    });
+
+    // Delete the snippet file from Cloudinary
+    await cloudinary.uploader.destroy(snippet.public_id, {
+      resource_type: "video",
+    });
 
     // Delete all comments associated with the snippet
     await Comment.deleteMany({ snippet: id });

@@ -10,6 +10,17 @@ export const createRequest = async (req, res) => {
       return res.status(400).json({ message: "All required fields must be provided" });
     }
 
+    // Check if a collaboration request with the same fields already exists
+    const existingRequest = await Collaboration.findOne({
+      requester: requesterId,
+      recipient: recipientId,
+      snippet: snippetId,
+    });
+
+    if (existingRequest) {
+      return res.status(409).json({ message: "Collaboration request already exists" });
+    }
+
     // Create the collaboration request
     const newRequest = new Collaboration({
       requester: requesterId,
@@ -30,9 +41,9 @@ export const createRequest = async (req, res) => {
 
     // Populate the collaboration request with the desired fields
     const populatedRequest = await Collaboration.findById(savedRequest._id)
-      .populate("requester", "username") // Populate only the 'username' of the requester
-      .populate("recipient", "username") // Populate only the 'username' of the recipient
-      .populate("snippet", "audioUrl"); // Populate only the 'audioUrl' of the snippet
+      .populate("requester", "username")
+      .populate("recipient", "username")
+      .populate("snippet", "audioUrl");
 
     res.status(201).json({
       message: "Collaboration request created successfully",

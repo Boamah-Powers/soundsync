@@ -92,9 +92,9 @@ function SingleSnippetPage() {
 					variant: "success",
 				});
 			})
-			.catch((error) => {
-				console.error("Error sending collaboration request:", error);
-				enqueueSnackbar("Failed to send collaboration request.", {
+			.catch((err) => {
+				console.error("Error sending collaboration request:", err);
+				enqueueSnackbar(err.response.data.message, {
 					variant: "error",
 				});
 			});

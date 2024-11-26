@@ -7,16 +7,16 @@ export const createComment = async (req, res) => {
       return res.status(400).json({ message: "Invalid request" });
     }
 
-    const { text, snippetID } = req.body;
+    const { text, snippetId } = req.body;
     const userId = req.user;
 
     // Validate input
-    if (!text || !snippetID) {
+    if (!text || !snippetId) {
       return res.status(400).json({ message: "Text and Snippet ID are required." });
     }
 
     // Check if the snippet exists
-    const snippet = await Snippet.findById(snippetID);
+    const snippet = await Snippet.findById(snippetId);
     if (!snippet) {
       return res.status(404).json({ message: "Snippet not found." });
     }
@@ -24,7 +24,7 @@ export const createComment = async (req, res) => {
     // Create a new comment
     const newComment = new Comment({
       user: userId,
-      snippet: snippetID,
+      snippet: snippetId,
       text,
     });
 
