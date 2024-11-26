@@ -22,7 +22,17 @@ export const updateUser = async (req, res) => {
     const updatedUser = await User.findByIdAndUpdate(userId, updateData, {
       new: true, 
       runValidators: true,
-    }).populate("snippets");
+    }).populate([
+      { path: "snippets"},
+      {
+        path: "collaborations",
+        populate: [
+          { path: "requester", select: "username" }, // Populate requester with only username
+          { path: "recipient", select: "username" }, // Populate recipient with only username
+          { path: "snippet", select: "audioUrl" },   // Populate snippet with only audioUrl
+        ],
+      },
+    ]);
 
     if (!updatedUser) {
       return res.status(404).json({ message: "User not found" });

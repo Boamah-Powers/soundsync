@@ -16,10 +16,6 @@ const collaborationSchema = new mongoose.Schema({
         ref: 'Snippet',
         required: true,
     },
-    message: {
-        type: String, // Optional message explaining the collaboration idea
-        trim: true,
-    },
     status: {
         type: String,
         enum: ['pending', 'accepted', 'declined'],

@@ -3,7 +3,7 @@ import { Layout, RequireAuth } from "./routes/layout";
 import HomePage from "./routes/homePage";
 import Register from "./routes/register";
 import Login from "./routes/login";
-import { snippetsLoader, snippetLoader } from "./lib/loaders";
+import { snippetsLoader, snippetLoader, collaborationsLoader } from "./lib/loaders";
 import ProfilePage from "./routes/profilePage";
 import SingleSnippetPage from "./routes/singleSnippetPage";
 import AddSnippetPage from "./routes/addSnippetPage";
@@ -41,7 +41,8 @@ const App = () => {
       children: [
         {
           path: "/profile",
-          element: <ProfilePage/>
+          element: <ProfilePage/>,
+          loader: collaborationsLoader,
         },
         {
           path: "/update-profile",

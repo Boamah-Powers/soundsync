@@ -47,15 +47,18 @@ export const login = async (req, res) => {
 			return res.status(401).json({ message: "Invalid credentials" });
 		}
 
-		// Populate snippets and collaborations in user
 		try {
-			// Populate both snippets and collaborations fields
+			// Populate user snippets and collaborations with specific fields
 			await user.populate([
-				{ path: "snippets" },
-				{ 
-					path: "collaborations", 
-					populate: { path: "snippet" }  // Assuming we want to see details of each snippet in collaborations
-				}
+				{ path: "snippets"},
+				{
+					path: "collaborations",
+					populate: [
+						{ path: "requester", select: "username" }, // Populate requester with only username
+						{ path: "recipient", select: "username" }, // Populate recipient with only username
+						{ path: "snippet", select: "audioUrl" },   // Populate snippet with only audioUrl
+					],
+				},
 			]);
 
 			// Convert user to a plain object and remove sensitive fields

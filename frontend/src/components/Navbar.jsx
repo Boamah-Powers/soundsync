@@ -36,7 +36,7 @@ const Navbar = () => {
 					))
 				) : (
 					<a
-						href="/profile"
+						href={`/profile`}
 						className="flex items-center space-x-2 text-blue-600 hover:text-blue-800"
 					>
 						<img
@@ -81,7 +81,7 @@ const Navbar = () => {
 						</a>
 					))
 				) : (
-					<a href="/profile" className="flex items-center space-x-3 p-4">
+					<a href={`/profile`} className="flex items-center space-x-3 p-4">
 						<img
 							src={currentUser.profilePicture || "/noavatar.png"}
 							alt="User Avatar"

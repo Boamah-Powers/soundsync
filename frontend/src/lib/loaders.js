@@ -34,3 +34,16 @@ export const snippetLoader = ({ params }) => {
     snippetResponse: snippetPromise,
   });
 };
+
+export const collaborationsLoader = ({  }) => {
+  const collaborationsPromise = apiRequest
+    .get(`/collaborations/`)
+    .then((res) => res.data.collaborations)
+    .catch((err) => {
+      console.error("Error fetching snippet:", err);
+    });
+
+  return defer({
+    collaborationsResponse: collaborationsPromise,
+  });
+};
