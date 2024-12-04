@@ -82,7 +82,7 @@ export const getCollaborations = async (req, res) => {
       
       // Include `email` for `requester` and `recipient` only if status is "accepted"
       if (updatedCollab.status !== "accepted") {
-        if (updatedCollab.recipient) delete updatedCollab.recipient.email;
+        if (updatedCollab.recipient) {delete updatedCollab.recipient.email;}
       }
 
       return updatedCollab;

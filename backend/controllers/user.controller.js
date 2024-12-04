@@ -14,9 +14,9 @@ export const updateUser = async (req, res) => {
     }
 
     const updateData = {};
-    if (profilePicture) updateData.profilePicture = profilePicture;
-    if (instruments) updateData.instruments = instruments;
-    if (genres) updateData.genres = genres;
+    if (profilePicture) {updateData.profilePicture = profilePicture;}
+    if (instruments) {updateData.instruments = instruments;}
+    if (genres) {updateData.genres = genres;}
 
     // Update the user in the database
     const updatedUser = await User.findByIdAndUpdate(userId, updateData, {
@@ -29,7 +29,7 @@ export const updateUser = async (req, res) => {
         populate: [
           { path: "requester", select: "username" }, // Populate requester with only username
           { path: "recipient", select: "username" }, // Populate recipient with only username
-          { path: "snippet", select: "audioUrl" },   // Populate snippet with only audioUrl
+          { path: "snippet", select: "audioUrl" }, // Populate snippet with only audioUrl
         ],
       },
     ]);

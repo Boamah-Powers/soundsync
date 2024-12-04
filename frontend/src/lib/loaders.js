@@ -35,7 +35,7 @@ export const snippetLoader = ({ params }) => {
   });
 };
 
-export const collaborationsLoader = ({  }) => {
+export const collaborationsLoader = () => {
   const collaborationsPromise = apiRequest
     .get(`/collaborations/`)
     .then((res) => res.data.collaborations)

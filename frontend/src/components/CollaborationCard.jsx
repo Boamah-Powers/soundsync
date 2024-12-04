@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { MdOutlinePerson } from "react-icons/md";
 import ReactAudioPlayer from "react-audio-player";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -56,7 +57,7 @@ function CollaborationCard({ collab, currentUser }) {
         {/* Display Recipient's Email */}
         {collab.status === "accepted" && isRequester && (
           <div className="mt-4">
-            <h3 className="text-lg font-semibold text-gray-700">Recipient's Email</h3>
+            <h3 className="text-lg font-semibold text-gray-700">{`Recipient's Email`}</h3>
             <p className="text-gray-800">{collab.recipient.email}</p>
           </div>
         )}
@@ -113,5 +114,26 @@ function CollaborationCard({ collab, currentUser }) {
     </div>
   );
 }
+
+CollaborationCard.propTypes = {
+  collab: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    requester: PropTypes.shape({
+      username: PropTypes.string.isRequired,
+    }).isRequired,
+    recipient: PropTypes.shape({
+      username: PropTypes.string.isRequired,
+      email: PropTypes.string.isRequired,
+    }).isRequired,
+    snippet: PropTypes.shape({
+      audioUrl: PropTypes.string.isRequired,
+    }).isRequired,
+    status: PropTypes.string.isRequired,
+    createdAt: PropTypes.string.isRequired,
+  }).isRequired,
+  currentUser: PropTypes.shape({
+    username: PropTypes.string.isRequired,
+  }).isRequired,
+};
 
 export default CollaborationCard;

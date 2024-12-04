@@ -84,12 +84,11 @@ export const createSnippet = async (req, res) => {
 			return res.status(400).json({ message: "Invalid request" });
 		}
 
-		// Destructure snippet details from the request body
-		const { audioUrl, description, tags, genre, public_id } = req.body;
+		const { audioUrl, description, tags, genre, public_id: publicId } = req.body;
 		const userId = req.user;
 
 		// Validate input
-		if (!audioUrl || !description || !tags || !genre | !public_id) {
+		if (!audioUrl || !description || !tags || !genre || !publicId) {
 			return res
 				.status(400)
 				.json({ message: "All fields are required." });
@@ -106,9 +105,9 @@ export const createSnippet = async (req, res) => {
 			user: userId,
 			audioUrl,
 			description,
-			tags, // Assuming tags is an array of strings
+			tags,
 			genre,
-			public_id
+			publicId,
 		});
 
 		// Save the snippet

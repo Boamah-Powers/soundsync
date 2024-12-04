@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import moment from "moment";
 
 function CommentCard({ comment }) {
@@ -27,5 +28,16 @@ function CommentCard({ comment }) {
     </div>
   );
 }
+
+CommentCard.propTypes = {
+  comment: PropTypes.shape({
+    user: PropTypes.shape({
+      username: PropTypes.string.isRequired,
+      profilePicture: PropTypes.string,
+    }).isRequired,
+    text: PropTypes.string.isRequired,
+    createdAt: PropTypes.string.isRequired,
+  }).isRequired,
+};
 
 export default CommentCard;

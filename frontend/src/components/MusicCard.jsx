@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import ReactAudioPlayer from "react-audio-player";
 import { MdOutlineMessage } from "react-icons/md";
 import moment from "moment";
@@ -102,5 +103,18 @@ function MusicCard({ musicList, index, username }) {
     </div>
   );
 }
+
+MusicCard.propTypes = {
+  musicList: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    created_at: PropTypes.string.isRequired,
+    url: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    public_id: PropTypes.string.isRequired,
+    tags: PropTypes.arrayOf(PropTypes.string).isRequired,
+  }).isRequired,
+  index: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+  username: PropTypes.string.isRequired,
+};
 
 export default MusicCard;

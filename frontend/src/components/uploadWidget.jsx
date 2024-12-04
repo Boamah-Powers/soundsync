@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { createContext, useEffect, useState } from "react";
 
 // Create a context to manage the script loading state
@@ -66,6 +67,12 @@ function UploadWidget({ uwConfig, setState, flag=true }) {
     </CloudinaryScriptContext.Provider>
   );
 }
+
+UploadWidget.propTypes = {
+  uwConfig: PropTypes.object.isRequired, 
+  setState: PropTypes.func, 
+  flag: PropTypes.bool, 
+};
 
 export default UploadWidget;
 export { CloudinaryScriptContext };

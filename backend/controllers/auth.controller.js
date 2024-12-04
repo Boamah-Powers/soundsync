@@ -1,5 +1,4 @@
 import { User } from "../models/user.js";
-import { Collaboration } from "../models/collaboration.js"
 import passport from "passport";
 import jwt from "jsonwebtoken";
 
@@ -56,7 +55,7 @@ export const login = async (req, res) => {
 					populate: [
 						{ path: "requester", select: "username" }, // Populate requester with only username
 						{ path: "recipient", select: "username" }, // Populate recipient with only username
-						{ path: "snippet", select: "audioUrl" },   // Populate snippet with only audioUrl
+						{ path: "snippet", select: "audioUrl" }, // Populate snippet with only audioUrl
 					],
 				},
 			]);
