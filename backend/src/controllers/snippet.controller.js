@@ -1,14 +1,8 @@
+import cloudinary from "../config/cloudinary.js";
+
 import { User } from "../models/user.js";
 import { Snippet } from "../models/snippet.js";
 import { Comment } from "../models/comment.js";
-import { v2 as cloudinary } from 'cloudinary';
-
-// cloudinary
-cloudinary.config({ 
-  cloud_name: process.env.CLOUDINARY_CLOUDNAME,
-	api_key: process.env.CLOUDINARY_API_KEY,
-	api_secret: process.env.CLOUDINARY_API_SECRET,
-});
 
 export const getSnippets = async (req, res) => {
 	try {
@@ -107,7 +101,7 @@ export const createSnippet = async (req, res) => {
 			description,
 			tags,
 			genre,
-			publicId,
+			public_id: publicId,
 		});
 
 		// Save the snippet
