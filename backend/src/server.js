@@ -9,6 +9,8 @@ const server = app.listen(PORT, () => {
   console.log(`Server started successfully on PORT: ${PORT}!`);
 });
 
+export {app};
+
 // Graceful shutdown on process signals
 process.on("SIGINT", async () => {
   console.log("Shutting down gracefully...");
