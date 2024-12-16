@@ -3,6 +3,8 @@ import './config/db.js';
 
 const PORT = process.env.PORT || 3000;
 
+app.get("/", (req, res) => res.send("Express on Vercel"));
+
 const server = app.listen(PORT, () => {
   console.log(`Server started successfully on PORT: ${PORT}!`);
 });

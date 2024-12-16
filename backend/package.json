@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "npx eslint . --fix && nodemon src/server.js",
+    "build": "node src/server.js",
     "test": "jest"
   },
   "keywords": [],
